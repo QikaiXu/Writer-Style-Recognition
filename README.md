@@ -1,5 +1,5 @@
 # Writer-Style-Recognition
-> 浙江大学《人工智能与系统》课程作业
+> 浙江大学《人工智能与系统》课程作业，作家风格识别
 >
 > 项目来源于：<https://mo.zju.edu.cn/workspace/5f8ed41148689dc2e7441a23?type=app&tab=2>（似乎只有我登录了自己的号才能看到。。。）
 
