@@ -57,3 +57,31 @@ LX
 
 ## 3 bert
 
+先安装 transformers 库
+
+```shell
+pip install transformers
+```
+
+然后运行 `bert_train.py`
+
+部分输出如下
+
+```text
+step: 0 loss: 0.012350269593298435
+step: 50 loss: 0.12088379263877869
+...
+step: 450 loss: 0.0010281536960974336
+eval step: 0 loss: 0.002066229470074177
+eval step: 1 loss: 0.0006851256475783885
+eval step: 2 loss: 0.0010056671453639865
+...
+eval step: 51 loss: 0.03821168094873428
+eval step: 52 loss: 0.0007723120506852865
+Saved model
+Train loss     : 0.056686907584876996
+Validation loss: 0.11087377357652481
+Accuracy: 0.9716981132075472
+```
+
+通过 `model_test.py` 测试结果为 50 个正确 48 个，就是推理慢了点。

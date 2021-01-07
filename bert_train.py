@@ -71,6 +71,7 @@ if __name__ == '__main__':
     epochs = 4
     batch_size = 16
     num_labels = 5
+    device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 
     # Split data into train and validation
     dataset = TensorDataset(all_input_ids, labels)
@@ -82,9 +83,10 @@ if __name__ == '__main__':
     train_dataloader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
     val_dataloader = DataLoader(val_dataset, batch_size=batch_size, shuffle=False)
     # Load the pretrained BERT model
-    model = BertForSequenceClassification.from_pretrained('bert-base-chinese', num_labels=num_labels, output_attentions=False,
+    model = BertForSequenceClassification.from_pretrained('bert-base-chinese', num_labels=num_labels,
+                                                          output_attentions=False,
                                                           output_hidden_states=False)
-    model.cuda()
+    model.to(device)
 
     # create optimizer and learning rate schedule
     optimizer = AdamW(model.parameters(), lr=2e-5)
@@ -98,10 +100,10 @@ if __name__ == '__main__':
         total_eval_accuracy = 0
         for step, batch in enumerate(train_dataloader):
             model.zero_grad()
-            # loss, logits = model(batch[0].to('gpu'), token_type_ids=None, attention_mask=(batch[0] > 0).to('gpu'),
-            # labels=batch[1].to('gpu'))
-            loss, logits = model(batch[0].cuda(), token_type_ids=None, attention_mask=(batch[0] > 0).cuda(),
-                                 labels=batch[1].cuda())
+            outputs = model(batch[0].to(device), token_type_ids=None, attention_mask=(batch[0] > 0).to(device),
+                            labels=batch[1].to(device))
+            loss = outputs[0]
+            logits = outputs[1]
             total_loss += loss.item()
             loss.backward()
             torch.nn.utils.clip_grad_norm_(model.parameters(), 1.0)
@@ -113,14 +115,13 @@ if __name__ == '__main__':
         model.eval()
         for i, batch in enumerate(val_dataloader):
             with torch.no_grad():
-                # loss, logits = model(batch[0].to('gpu'), token_type_ids=None, attention_mask=(batch[0] > 0).to('gpu'),
-                # labels=batch[1].to('gpu'))
-                loss, logits = model(batch[0].cuda(), token_type_ids=None, attention_mask=(batch[0] > 0).cuda(),
-                                     labels=batch[1].cuda())
+                outputs = model(batch[0].to(device), token_type_ids=None, attention_mask=(batch[0] > 0).to(device),
+                                labels=batch[1].to(device))
+                loss = outputs[0]
+                logits = outputs[1]
                 total_val_loss += loss.item()
-
                 logits = logits.detach().cpu().numpy()
-                label_ids = batch[1].to('cpu').numpy()
+                label_ids = batch[1].cpu().numpy()
                 total_eval_accuracy += flat_accuracy(logits, label_ids)
                 print("eval step: {0} loss: {1}".format(i, loss))
         avg_train_loss = total_loss / len(train_dataloader)
