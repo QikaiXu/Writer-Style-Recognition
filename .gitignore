@@ -1,2 +1,4 @@
 .DS_Store
 .idea
+results
+__pycache__

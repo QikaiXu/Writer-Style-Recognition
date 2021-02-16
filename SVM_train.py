@@ -64,14 +64,20 @@ for i, (sentence, author_idx) in enumerate(dataset_init):
 X_train, X_test, y_train, y_test = train_test_split(features, labels, test_size=0.1)
 
 
+# 训练一个 5 分类 svm
 # print('training svm for all')
+# start = time.time()
 # svm = SVC(probability=True)
 # svm.fit(X_train, y_train)
+# print('Fitting time: {:.2f} s'.format(time.time() - start))
 # print(svm.score(X_test, y_test))
+# with open('results/svm_model.pkl', 'wb') as f:
+#     pickle.dump((int2author, word2int, svm), f)
+# print('saved model!')
 
 
-# 为每个作家训练一个 svm
-start = time.process_time()
+# 为每个作家训练一个 svm，效果更好
+start = time.time()
 svm_lst = []
 for i in range(author_num):
     svm_i = SVC(probability=True)
@@ -82,8 +88,8 @@ for i in range(author_num):
     print('score:', svm_i.score(X_test, y_test_i))
     svm_lst.append(svm_i)
 
-    end = time.process_time()
-    print('time: %.4fs' % (end - start, ))
+    end = time.time()
+    print('Fitting time: {:.2f} s'.format(end - start))
     start = end
 
 with open('results/svm_model.pkl', 'wb') as f:

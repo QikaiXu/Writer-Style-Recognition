@@ -3,6 +3,7 @@ import numpy as np
 import pickle
 
 
+# # 5 个分类器分类
 with open('results/svm_model.pkl', 'rb') as f:
     int2author, word2int, svm_lst = pickle.load(f)
 
@@ -21,6 +22,22 @@ def predict(text):
 
     author_idx = max(enumerate(probabilities), key=lambda x: x[1])[0]
     return int2author[author_idx]
+
+
+# 1 个分类器分类
+# with open('results/svm_model.pkl', 'rb') as f:
+#     int2author, word2int, svm = pickle.load(f)
+#
+# def predict(text):
+#     word_num = len(word2int)
+#     feature = np.zeros(word_num)
+#     for word in jb.lcut(text):
+#         if word in word2int:
+#             feature[word2int[word]] += 1
+#     feature /= feature.sum()
+#
+#     author_idx = int(svm.predict([feature])[0])
+#     return int2author[author_idx]
 
 
 if __name__ == '__main__':
