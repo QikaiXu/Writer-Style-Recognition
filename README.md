@@ -1,9 +1,9 @@
-# Writer-Style-Recognition
+# 作家风格识别
 > 浙江大学《人工智能与系统》课程作业，作家风格识别
 >
 > 项目来源于：<https://mo.zju.edu.cn/workspace/5f8ed41148689dc2e7441a23?type=app&tab=2>（似乎只有我登录了自己的号才能看到。。。）
 
-具体数据处理过程说明可查看 `torch_main.ipynb`
+具体数据处理过程说明可查看 `torch_main.ipynb`。
 
 
 
@@ -19,9 +19,9 @@
 
 ## 2 Pytorch 神经网络
 
-直接运行 `nn_train.py` 即可开始训练
+直接运行 `nn_train.py` 即可开始训练。
 
-训练过程输出
+训练过程输出：
 
 ```text
 epoch:0 | valid_acc:0.2632
@@ -47,7 +47,7 @@ epoch:19 | valid_acc:0.9229
 best accuracy:0.9436
 ```
 
-之后运行 `nn_predict.py` 对预设的文字进行预测，输出结果
+之后运行 `nn_predict.py` 对预设的文字进行预测，输出结果：
 
 ```text
 LX
@@ -57,15 +57,15 @@ LX
 
 ## 3 bert
 
-先安装 transformers 库
+先安装 transformers 库：
 
 ```shell
 pip install transformers
 ```
 
-然后运行 `bert_train.py`
+然后运行 `bert_train.py`。
 
-部分输出如下
+部分输出如下：
 
 ```text
 step: 0 loss: 0.012350269593298435
